@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "flask-starter"
+version = "0.1.0"
+description = "Flask starter kit"
+authors = ["Andrew Shoemaker <andrew.shoemaker9@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+flask-login = "^0.6.3"
+flask-wtf = "^1.2.2"
+flask-migrate = "^4.1.0"
+flask-sqlalchemy = "^3.1.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
