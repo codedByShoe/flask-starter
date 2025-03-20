@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Flask Monolith{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-header">
+        <h1 class="text-center">Welcome to Flask Monolith Starter</h1>
+      </div>
+      <div class="card-body">
+        <p class="lead text-center">A production-ready monolithic Flask application starter with authentication,
+          background jobs, and more.</p>
+
+        <hr>
+
+        <div class="row mt-4">
+          <div class="col-md-6">
+            <div class="card mb-3">
+              <div class="card-body">
+                <h5 class="card-title">Features</h5>
+                <ul>
+                  <li>User authentication with email verification</li>
+                  <li>Password reset functionality</li>
+                  <li>Background jobs with RQ and Valkey</li>
+                  <li>Docker Compose setup for development</li>
+                  <li>SQLite for development database</li>
+                  <li>MailPit for testing emails</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card mb-3">
+              <div class="card-body">
+                <h5 class="card-title">Get Started</h5>
+                {% if current_user.is_authenticated %}
+                <p>You are logged in as <strong>{{ current_user.full_name }}</strong>.</p>
+                <a href="{{ url_for('core.dashboard') }}" class="btn btn-primary">Go to Dashboard</a>
+                {% else %}
+                <p>Create an account or log in to get started with Flask Monolith.</p>
+                <div class="d-grid gap-2">
+                  <a href="{{ url_for('auth.register') }}" class="btn btn-primary">Register</a>
+                  <a href="{{ url_for('auth.login') }}" class="btn btn-outline-primary">Login</a>
+                </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

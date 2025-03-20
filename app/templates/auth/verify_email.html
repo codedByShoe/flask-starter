@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Verify Email - Flask Monolith{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="text-center">Verify Your Email</h2>
+      </div>
+      <div class="card-body">
+        <div class="text-center">
+          <p class="lead">Please check your email to verify your account.</p>
+          <p>We've sent a verification link to your email address. Please click the link in that email to verify your
+            account.</p>
+          <p>If you don't see the email, please check your spam folder.</p>
+          <hr>
+          <p>Return to <a href="{{ url_for('auth.login') }}">login page</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - Flask Monolith{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-12 mb-4">
+    <div class="card">
+      <div class="card-header">
+        <h2>Dashboard</h2>
+      </div>
+      <div class="card-body">
+        <h4>Welcome back, {{ current_user.full_name }}!</h4>
+        <p>This is your personal dashboard. Here you can manage your account and access all application features.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6 mb-4">
+    <div class="card h-100">
+      <div class="card-header">
+        <h5>Account Information</h5>
+      </div>
+      <div class="card-body">
+        <p><strong>Email:</strong> {{ current_user.email }}</p>
+        <p><strong>Name:</strong> {{ current_user.full_name }}</p>
+        <p><strong>Account Created:</strong> {{ current_user.created_at.strftime('%Y-%m-%d') }}</p>
+        <p><strong>Last Login:</strong>
+          {% if current_user.last_login %}
+          {{ current_user.last_login.strftime('%Y-%m-%d %H:%M') }}
+          {% else %}
+          Never
+          {% endif %}
+        </p>
+        <a href="{{ url_for('core.profile') }}" class="btn btn-outline-primary">Edit Profile</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 mb-4">
+    <div class="card h-100">
+      <div class="card-header">
+        <h5>Quick Actions</h5>
+      </div>
+      <div class="card-body">
+        <div class="list-group">
+          <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">Create New Item</h5>
+              <small><i class="fas fa-plus"></i></small>
+            </div>
+            <p class="mb-1">Start creating a new item in the system.</p>
+          </a>
+          <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">View Reports</h5>
+              <small><i class="fas fa-chart-bar"></i></small>
+            </div>
+            <p class="mb-1">Access and generate system reports.</p>
+          </a>
+          <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">Manage Settings</h5>
+              <small><i class="fas fa-cog"></i></small>
+            </div>
+            <p class="mb-1">Configure your preferences and settings.</p>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h5>Recent Activity</h5>
+      </div>
+      <div class="card-body">
+        <p class="text-muted">No recent activity to display.</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

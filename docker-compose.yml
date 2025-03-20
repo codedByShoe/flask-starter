@@ -1,0 +1,16 @@
+services:
+  valkey:
+    image: valkey/valkey:7.2
+    ports:
+      - "6379:6379"
+    volumes:
+      - valkey_data:/data
+
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "1025:1025" # SMTP port
+      - "8025:8025" # Web UI port
+
+volumes:
+  valkey_data:
