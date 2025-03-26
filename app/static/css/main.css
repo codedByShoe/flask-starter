@@ -299,16 +299,16 @@ body {
   top: -1px;
 }
 
-.custom-checkbox-input:checked ~ .custom-checkbox-box {
+.custom-checkbox-input:checked~.custom-checkbox-box {
   background-color: var(--primary);
   border-color: var(--primary);
 }
 
-.custom-checkbox-input:checked ~ .custom-checkbox-box::after {
+.custom-checkbox-input:checked~.custom-checkbox-box::after {
   display: block;
 }
 
-.custom-checkbox-input:focus ~ .custom-checkbox-box {
+.custom-checkbox-input:focus~.custom-checkbox-box {
   box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.25);
 }
 
@@ -538,6 +538,7 @@ body {
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -548,7 +549,7 @@ body {
   animation: fadeIn 0.3s ease-in-out;
 }
 
-.form-control:focus ~ .input-icon {
+.form-control:focus~.input-icon {
   color: var(--primary);
 }
 

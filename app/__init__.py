@@ -1,33 +1,10 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
-from flask_login import LoginManager
-from flask_mail import Mail
-import redis
-from rq import Queue
+from config import Config
+from .extensions import db, migrate, login_manager, mail
 
-from config import get_config
-
-# Initialize extensions
-db = SQLAlchemy()
-migrate = Migrate()
-login_manager = LoginManager()
-mail = Mail()
-
-# Configure login manager
-login_manager.login_view = "auth.login"
-login_manager.login_message = "Please log in to access this page."
-login_manager.login_message_category = "info"
-
-
-def create_app(config_class=None):
+def create_app():
     app = Flask(__name__)
-
-    # Load configuration
-    if config_class is None:
-        app.config.from_object(get_config())
-    else:
-        app.config.from_object(config_class)
+    app.config.from_object(Config)
 
     # Initialize extensions with app
     db.init_app(app)
@@ -35,10 +12,10 @@ def create_app(config_class=None):
     login_manager.init_app(app)
     mail.init_app(app)
 
-    # Configure Redis and RQ
-    app.redis = redis.from_url(app.config["VALKEY_URL"])
-    app.task_queue = Queue("default", connection=app.redis)
-    app.email_queue = Queue("email", connection=app.redis)
+    # Configure login manager
+    login_manager.login_view = "auth.login"
+    login_manager.login_message = "Please log in to access this page."
+    login_manager.login_message_category = "info"
 
     # Import models to ensure they are registered with SQLAlchemy
     from app.auth.models import User

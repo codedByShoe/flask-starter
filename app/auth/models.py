@@ -3,8 +3,9 @@ from flask_login import UserMixin
 from datetime import datetime
 from app.utils.security import hash_password, check_password
 
+
 class User(UserMixin, db.Model):
-    __tablename__ = 'users'
+    __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, index=True, nullable=False)
@@ -12,12 +13,16 @@ class User(UserMixin, db.Model):
     first_name = db.Column(db.String(64), nullable=True)
     last_name = db.Column(db.String(64), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    updated_at = db.Column(
+        db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
+    )
     is_active = db.Column(db.Boolean, default=False)
     is_admin = db.Column(db.Boolean, default=False)
     last_login = db.Column(db.DateTime, nullable=True)
 
-    def __init__(self, email, password, first_name=None, last_name=None, is_admin=False):
+    def __init__(
+        self, email, password, first_name=None, last_name=None, is_admin=False
+    ):
         self.email = email.lower()
         self.password_hash = hash_password(password)
         self.first_name = first_name
@@ -51,6 +56,8 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return f"<User {self.email}>"
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+

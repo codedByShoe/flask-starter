@@ -1,7 +1,7 @@
-from flask import current_app
+from app.extensions import mail
 from app import db
 from app.auth.models import User
-from app.email.email import send_email
+from app.utils import send_email
 from app.utils.security import generate_confirmation_token, generate_reset_token
 from flask import render_template, url_for
 
@@ -13,13 +13,8 @@ def send_confirmation_email(user):
     subject = "Please confirm your email"
     template = render_template('email/verify.html', confirm_url=confirm_url, user=user)
 
-    # Use the email queue for sending emails asynchronously
-    current_app.email_queue.enqueue(
-        send_email,
-        recipient=user.email,
-        subject=subject,
-        html_body=template
-    )
+
+    send_email(mail=mail, to=user.email, subject=subject, html_body=template)
 
 def send_password_reset_email(user):
     """Send password reset email to user"""
@@ -29,14 +24,7 @@ def send_password_reset_email(user):
     subject = "Password Reset Request"
     template = render_template('email/reset_password.html', reset_url=reset_url, user=user)
 
-    # Use the email queue for sending emails asynchronously
-    current_app.email_queue.enqueue(
-        send_email,
-        recipient=user.email,
-        subject=subject,
-        html_body=template
-    )
-
+    send_email(mail=mail, to=user.email, subject=subject, html_body=template)
 def create_user(email, password, first_name=None, last_name=None):
     """Create a new user and return the user object"""
     user = User(
