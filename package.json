@@ -1,0 +1,16 @@
+{
+  "scripts": {
+    "tailwind:watch": "bunx @tailwindcss/cli -i ./app/static/css/input.css -o ./app/static/css/main.css --watch --minify",
+    "bun:build": "bun build --watch ./app/static/js/build.js --outfile=./app/static/js/main.js",
+    "dev": "concurrently \" bun run tailwind:watch \" \" bun run bun:build \" "
+  },
+  "dependencies": {
+    "@alpinejs/collapse": "^3.14.9",
+    "@alpinejs/focus": "^3.14.9",
+    "@alpinejs/mask": "^3.14.9",
+    "@tailwindcss/cli": "^4.0.17",
+    "alpinejs": "^3.14.9",
+    "concurrently": "^9.1.2",
+    "tailwindcss": "^4.0.17"
+  }
+}

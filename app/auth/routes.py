@@ -113,7 +113,8 @@ def reset_password_request():
 
     form = ResetPasswordRequestForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data.lower()).first()
+        email = form.email.data or ""
+        user = User.query.filter_by(email=email.lower()).first()
         if user:
             send_password_reset_email(user)
 
@@ -154,4 +155,3 @@ def reset_password(token):
     return render_template(
         "auth/reset_password.html", title="Reset Password", form=form
     )
-
