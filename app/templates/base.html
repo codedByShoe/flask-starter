@@ -18,20 +18,7 @@
 <body>
   <!-- Navigation -->
   {% include 'partials/navbar.html' %}
-
-  <!-- Flash messages -->
-  <div class="container mt-3">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-    {% for category, message in messages %}
-    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-      {{ message }}
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    {% endfor %}
-    {% endif %}
-    {% endwith %}
-  </div>
+  {% include 'partials/toast_alerts.html' %}
 
   <!-- Main content -->
   <main class="container mt-4">
@@ -39,9 +26,9 @@
   </main>
 
   <!-- Footer -->
-  <footer class="footer mt-5 py-3 bg-light">
+  <footer x-data="{ year: new Date().getFullYear() }" class="footer mt-5 py-3 bg-light">
     <div class="container text-center">
-      <span class="text-muted">&copy; 2025 Flask Starter</span>
+      <span class="text-muted">&copy; <span x-text="year"></span> Flask Starter</span>
     </div>
   </footer>
 
