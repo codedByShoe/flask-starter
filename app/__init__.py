@@ -1,37 +1,47 @@
+import os
+from dotenv import load_dotenv
 from flask import Flask
-from config import Config
 from .extensions import db, migrate, login_manager, mail
 
-def create_app():
-    app = Flask(__name__)
-    app.config.from_object(Config)
 
-    # Initialize extensions with app
-    db.init_app(app)
-    migrate.init_app(app, db)
-    login_manager.init_app(app)
-    mail.init_app(app)
+class Application:
+    CONFIG_MAP = {
+        "development": "app.config.DevelopmentConfig",
+        "production": "app.config.ProductionConfig",
+        "testing": "app.config.TestingConfig",
+    }
 
-    # Configure login manager
-    login_manager.login_view = "auth.login"
-    login_manager.login_message = "Please log in to access this page."
-    login_manager.login_message_category = "info"
+    @property
+    def app(self) -> Flask:
+        return self._app
 
-    # Import models to ensure they are registered with SQLAlchemy
-    from app.auth.models import User
+    @app.setter
+    def app(self, app: Flask) -> None:
+        self._app = app
 
-    # Register blueprints
-    from app.auth import bp as auth_bp
+    def __init__(self) -> None:
+        self.app = Flask(__name__)
+        load_dotenv()
+        self._load_config()
 
-    app.register_blueprint(auth_bp, url_prefix="/auth")
+    def _load_config(self) -> None:
+        env = os.getenv("FLASK_ENV", "development")
 
-    from app.core import bp as core_bp
+        config_class = self.CONFIG_MAP.get(env, "app.config.DevelopmentConfig")
+        self.app.config.from_object(config_class)
 
-    app.register_blueprint(core_bp, url_prefix="")
+    def add_extensions(self):
+        db.init_app(self.app)
+        migrate.init_app(self.app, db)
+        login_manager.init_app(self.app)
+        mail.init_app(self.app)
 
-    # Register error handlers
-    from app.utils.error_handlers import register_error_handlers
+        # Configure login manager
+        login_manager.login_view = "auth.login"
+        login_manager.login_message = "Please log in to access this page."
+        login_manager.login_message_category = "info"
 
-    register_error_handlers(app)
+        return self
 
-    return app
+    def build(self) -> Flask:
+        return self.app
